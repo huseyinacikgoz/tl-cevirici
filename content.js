@@ -13,13 +13,16 @@
   const fmtAmount = new Intl.NumberFormat("tr-TR", { maximumFractionDigits: 2 });
 
   function getRates() {
+    // Eklenti yeniden yüklenince bu sekmedeki eski betiğin bağlantısı kopar; sayfa yenilenmeli.
+    const stale = { ok: false, error: "Eklenti güncellendi, sayfayı yenile (F5)." };
     return new Promise((resolve) => {
       try {
+        if (!chrome.runtime || !chrome.runtime.id) return resolve(stale);
         chrome.runtime.sendMessage({ type: "getRates" }, (r) => {
-          if (chrome.runtime.lastError) return resolve(null);
+          if (chrome.runtime.lastError) return resolve({ ok: false, error: chrome.runtime.lastError.message });
           resolve(r);
         });
-      } catch (_) { resolve(null); } // eklenti yenilendiyse bağlam geçersiz olabilir
+      } catch (_) { resolve(stale); }
     });
   }
 
@@ -74,7 +77,7 @@
     const res = await getRates();
     if (id !== seq) return;
     if (!res || !res.ok) {
-      showTip(rect, `<span class="err">Kur alınamadı (TCMB). İnternetini kontrol et.</span>`);
+      showTip(rect, `<span class="err">Kur alınamadı: ${escapeHtml((res && res.error) || "bilinmeyen hata")}</span>`);
       return;
     }
     const rate = res.data.rates[parsed.currency];

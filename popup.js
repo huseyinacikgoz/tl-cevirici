@@ -22,7 +22,8 @@ function convert() {
 
 chrome.runtime.sendMessage({ type: "getRates" }, (res) => {
   if (chrome.runtime.lastError || !res || !res.ok) {
-    $("info").textContent = "Kur alınamadı (TCMB). İnternetini kontrol et.";
+    const why = chrome.runtime.lastError ? chrome.runtime.lastError.message : res && res.error;
+    $("info").textContent = "Kur alınamadı: " + (why || "bilinmeyen hata");
     return;
   }
   rates = res.data.rates;
