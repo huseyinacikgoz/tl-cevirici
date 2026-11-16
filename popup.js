@@ -7,7 +7,11 @@ function convert() {
   if (!rates) return;
   const text = $("amount").value.trim();
   // "100 dolar" gibi yazılırsa birimi de oradan al; düz sayıysa seçili birimi kullan.
-  const parsed = window.TLParser.parseAmount(text);
+  // parser.js TL'yi bilerek tanımaz (sayfadaki TL fiyatlarında balon çıkmasın); popup'ta ayrıca bak.
+  const tl = text.match(/^₺\s*(.+)$|^(.+?)\s*(?:tl|try|₺|lira)$/i);
+  const parsed = tl
+    ? { amount: window.TLParser.parseNumber(tl[1] || tl[2]), currency: "TRY" }
+    : window.TLParser.parseAmount(text);
   if (parsed && rates[parsed.currency]) $("from").value = parsed.currency;
   const amount = parsed ? parsed.amount : window.TLParser.parseNumber(text);
   const from = $("from").value, to = $("to").value;
@@ -22,7 +26,8 @@ chrome.runtime.sendMessage({ type: "getRates" }, (res) => {
     return;
   }
   rates = res.data.rates;
-  const codes = ["TRY", ...Object.keys(rates).filter((c) => c !== "TRY").sort()];
+  const top = ["TRY", "USD", "EUR"]; // en çok kullanılanlar üstte
+  const codes = [...top, ...Object.keys(rates).filter((c) => !top.includes(c)).sort()];
   for (const sel of [$("from"), $("to")]) {
     for (const c of codes) sel.add(new Option(c, c));
   }
