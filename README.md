@@ -6,6 +6,12 @@ Chrome, Brave, Edge ve Firefox için küçük, açık kaynaklı eklenti. Sayfada
 
 Araç çubuğundaki simgeye tıklayınca açılan pencerede tutarı yazıp (`100` veya `100 dolar`) TL ve diğer para birimleri arasında da çevirebilirsin.
 
+<p align="center">
+  <img src="screenshots/balon.png" alt="Seçilen 100 ABD Doları için çıkan balon: 100 USD ≈ 5.034,89 TL" height="118">
+  &nbsp;&nbsp;
+  <img src="screenshots/popup.png" alt="Araç çubuğu penceresi: 250 USD = 12.587,225 TRY" height="200">
+</p>
+
 - Kurlar **TCMB günlük döviz kurlarından** (`today.xml`) alınır, 1 saat önbelleğe alınır. Alış ve satış kurunun ortalaması kullanılır.
 - Veri toplamaz, hiçbir yere göndermez. Tek ağ isteği TCMB'ye gider.
 - İzinler: `storage` (kur önbelleği) ve `https://www.tcmb.gov.tr/*`.
