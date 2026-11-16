@@ -8,7 +8,7 @@ function convert() {
   const text = $("amount").value.trim();
   // "100 dolar" gibi yazılırsa birimi de oradan al; düz sayıysa seçili birimi kullan.
   // parser.js TL'yi bilerek tanımaz (sayfadaki TL fiyatlarında balon çıkmasın); popup'ta ayrıca bak.
-  const tl = text.match(/^₺\s*(.+)$|^(.+?)\s*(?:tl|try|₺|lira)$/i);
+  const tl = text.match(/^₺\s*(.+)$|^(.+?)\s*(?:tl|try|₺|(?:türk\s+)?liras?[ıi]?)$/i);
   const parsed = tl
     ? { amount: window.TLParser.parseNumber(tl[1] || tl[2]), currency: "TRY" }
     : window.TLParser.parseAmount(text);

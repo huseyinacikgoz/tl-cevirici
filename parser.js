@@ -13,7 +13,29 @@
   };
   // Türkçe ek alabilen kelimeler: "100 dolara", "50 dolarlık", "20 euroya".
   // "yen"/"frank" hariç: "5 yeni ürün" JPY sayılmasın.
-  const TR_STEMS = ["dolar", "euro", "avro", "sterlin"];
+  // Uzun adlar ("ABD Doları", "Kanada Doları") ek alabilen kök olarak yazılır: "ABD dolarına" da tutar.
+  const TR_STEMS = [
+    ["abd dolar", "USD"], ["amerikan dolar", "USD"], ["us dollar", "USD"], ["dolar", "USD"],
+    ["euro", "EUR"], ["avro", "EUR"],
+    ["ingiliz sterlin", "GBP"], ["british pound", "GBP"], ["sterlin", "GBP"],
+    ["isviçre frang", "CHF"], ["swiss franc", "CHF"],
+    ["japon yen", "JPY"], ["japanese yen", "JPY"],
+    ["kanada dolar", "CAD"], ["canadian dollar", "CAD"],
+    ["avustralya dolar", "AUD"], ["australian dollar", "AUD"],
+    ["isveç kron", "SEK"], ["norveç kron", "NOK"], ["danimarka kron", "DKK"],
+    ["suudi arabistan riyal", "SAR"], ["suudi riyal", "SAR"], ["katar riyal", "QAR"],
+    ["kuveyt dinar", "KWD"],
+    ["rus ruble", "RUB"], ["ruble", "RUB"],
+    ["çin yuan", "CNY"], ["yuan", "CNY"],
+    ["azerbaycan yeni manat", "AZN"], ["azerbaycan manat", "AZN"], ["manat", "AZN"],
+    ["rumen ley", "RON"], ["pakistan rupi", "PKR"],
+    ["güney kore won", "KRW"], ["kore won", "KRW"],
+    ["birleşik arap emirlikleri dirhem", "AED"], ["bae dirhem", "AED"], ["dirhem", "AED"],
+    ["kazakistan tenge", "KZT"], ["tenge", "KZT"],
+  ].sort((a, b) => b[0].length - a[0].length);
+  // JS'nin /i bayrağı i/İ/ı/I'yı eşlemez ("ABD DOLARI", "İsviçre"); karşılaştırmada hepsini i yap.
+  const fold = (s) => s.toLocaleLowerCase("tr").replace(/ı/g, "i").replace(/\s+/g, " ");
+  const stemRe = (s) => s.replace(/[iı]/g, "[iıİI]").replace(/ /g, "\\s+");
   // Yalnızca TCMB'nin today.xml'de yayımladığı kodlar (kuru olmayan kod hata balonu verir).
   const CODES = [
     "USD","EUR","GBP","CHF","JPY","CAD","AUD","SEK","NOK","DKK","SAR","KWD",
@@ -67,7 +89,7 @@
   const symAlt = SYMBOLS.map(([s]) => escapeRe(s)).join("|");
   const codeAlt = CODES.join("|");
   const wordAlt = Object.keys(WORDS).join("|");
-  const curAlt = `${symAlt}|(?<![A-Za-zÀ-ÿ])(?:${codeAlt})(?![A-Za-zÀ-ÿ])|(?<![A-Za-zÀ-ÿ])(?:${TR_STEMS.join("|")})['’]?[a-zçğıöşü]*|(?<![A-Za-zÀ-ÿ])(?:${wordAlt})(?![A-Za-zÀ-ÿ])`;
+  const curAlt = `${symAlt}|(?<![A-Za-zÀ-ÿ])(?:${codeAlt})(?![A-Za-zÀ-ÿ])|(?<![A-Za-zÀ-ÿ])(?:${TR_STEMS.map(([s]) => stemRe(s)).join("|")})['’]?[a-zçğıöşüİ]*|(?<![A-Za-zÀ-ÿ])(?:${wordAlt})(?![A-Za-zÀ-ÿ])`;
 
   const RE_PREFIX = new RegExp(`(${curAlt})\\s?(${NUM})${MULT}`, "gi");
   const RE_SUFFIX = new RegExp(`(${NUM})${MULT}\\s?(${curAlt})`, "gi");
@@ -77,8 +99,10 @@
     for (const [sym, code] of SYMBOLS) if (t === sym) return code;
     const up = t.toUpperCase();
     if (CODES.includes(up)) return up;
-    const low = t.toLowerCase();
-    return WORDS[low] || WORDS[TR_STEMS.find((s) => low.startsWith(s))] || null;
+    const low = fold(t);
+    if (WORDS[low]) return WORDS[low];
+    const stem = TR_STEMS.find(([s]) => low.startsWith(fold(s)));
+    return stem ? stem[1] : null;
   }
 
   // Metindeki tüm "tutar + para birimi" eşleşmelerini konumlarıyla döndürür.

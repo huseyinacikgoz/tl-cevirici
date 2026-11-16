@@ -1,4 +1,6 @@
-# TL Çevirici
+<p align="center"><img src="icons/icon128.png" width="96" height="96" alt="TL Çevirici logosu"></p>
+
+<h1 align="center">TL Çevirici</h1>
 
 Chrome, Brave, Edge ve Firefox için küçük, açık kaynaklı eklenti. Sayfada bir döviz tutarını **seçtiğinde, çift tıkladığında veya kopyaladığında** yanında küçük bir balonla TL karşılığını gösterir.
 
@@ -10,9 +12,9 @@ Araç çubuğundaki simgeye tıklayınca açılan pencerede tutarı yazıp (`100
 
 ## Desteklenen biçimler
 
-`$1,299.99` · `1.299,99 USD` · `€ 49,90` · `49.90 EUR` · `£1,000` · `1 299,50 €` · `100 dolar` · `50 dolarlık` · `20 euroya` · `$1.5k` · `1,5 milyon dolar` · `25 euro` · `US$ 12.5` · `C$ 30` ...
+`$1,299.99` · `1.299,99 USD` · `€ 49,90` · `49.90 EUR` · `£1,000` · `1 299,50 €` · `100 dolar` · `50 dolarlık` · `20 euroya` · `29,78 ABD Doları` · `10 İsviçre Frangı` · `$1.5k` · `1,5 milyon dolar` · `25 euro` · `US$ 12.5` · `C$ 30` ...
 
-`$ € £ ¥ US$ C$ A$` sembolleri, `USD EUR GBP CHF JPY CAD AUD ...` kodları ve `dolar / euro / avro / sterlin` kelimeleri tanınır. TL tutarları (`₺500`, `500 TL`) dönüştürülmez.
+`$ € £ ¥ US$ C$ A$` sembolleri, `USD EUR GBP CHF JPY CAD AUD ...` kodları, `dolar / euro / avro / sterlin` kelimeleri ve TCMB listesindeki tüm para birimlerinin Türkçe adları (`ABD Doları`, `Kanada Doları`, `Japon Yeni`, `Rus Rublesi`...) Türkçe ekleriyle birlikte tanınır. TL tutarları (`₺500`, `500 TL`) dönüştürülmez.
 
 ## Kurulum (Brave)
 
