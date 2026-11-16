@@ -9,7 +9,8 @@
     body { margin:0; padding:14px; width:280px; background:var(--bg); color:var(--fg);
            font:14px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
     .row { display:flex; gap:6px; align-items:center; margin-bottom:8px; }
-    input, select, button { font:inherit; color:inherit; background:transparent;
+    /* Şeffaf arka plan açılır listede beyaz zemin + açık yazı veriyordu; zemini açıkça ver. */
+    input, select, option, button { font:inherit; color:var(--fg); background:var(--bg);
            border:1px solid var(--line); border-radius:6px; padding:6px 8px; }
     input { flex:1; min-width:0; }
     button { cursor:pointer; padding:6px 10px; }
