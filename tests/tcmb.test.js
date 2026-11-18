@@ -28,3 +28,19 @@ assert.ok(Math.abs(rates.USD - 42.54) < 1e-9);
 assert.ok(Math.abs(rates.JPY - 0.27425) < 1e-9, "Unit=100 bölünmeli");
 assert.ok(Math.abs(rates.XDR - 58) < 1e-9, "boş satış kuru atlanmalı, alış kullanılmalı");
 console.log("TCMB ayrıştırma testi geçti.");
+
+// Frankfurter v2 (ECB) yanıtı: 1 TL = rate döviz; biz 1 döviz = kaç TL saklarız.
+const parseFrankfurter = new Function(src.match(/function parseFrankfurter[\s\S]*?\n}\n/)[0] + "; return parseFrankfurter;")();
+const ecb = parseFrankfurter(JSON.stringify([
+  { date: "2026-11-17", base: "TRY", quote: "USD", rate: 0.02 },
+  { date: "2026-11-18", base: "TRY", quote: "EUR", rate: 0.0125 },
+  { date: "2026-11-18", base: "TRY", quote: "BAD", rate: 0 },
+  { date: "2026-11-18", base: "TRY", quote: "<x>", rate: 1 },
+]));
+assert.strictEqual(ecb.rates.TRY, 1);
+assert.ok(Math.abs(ecb.rates.USD - 50) < 1e-9);
+assert.ok(Math.abs(ecb.rates.EUR - 80) < 1e-9);
+assert.ok(!("BAD" in ecb.rates) && !("<x>" in ecb.rates), "geçersiz kur/kod atlanmalı");
+assert.strictEqual(ecb.date, "18.11.2026", "en yeni tarih, gün.ay.yıl");
+assert.throws(() => parseFrankfurter('{"status":422}'), /Beklenmeyen/);
+console.log("ECB ayrıştırma testi geçti.");

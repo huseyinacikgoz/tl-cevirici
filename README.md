@@ -7,13 +7,17 @@ Chrome, Brave, Edge ve Firefox için küçük, açık kaynaklı eklenti. Sayfada
 Araç çubuğundaki simgeye tıklayınca açılan pencerede tutarı yazıp (`100` veya `100 dolar`) TL ve diğer para birimleri arasında da çevirebilirsin.
 
 <p align="center">
-  <img src="screenshots/balon.png" alt="Seçilen 100 ABD Doları için çıkan balon: 100 USD ≈ 5.034,89 TL" height="118">
+  <img src="screenshots/balon.png" alt="Seçilen 100,00 ABD Doları için çıkan balon: 100 USD ≈ 5.039,90 TL, altında yenile, kapat ve GitHub ikonları" height="145">
   &nbsp;&nbsp;
-  <img src="screenshots/popup.png" alt="Araç çubuğu penceresi: 250 USD = 12.587,225 TRY" height="200">
+  <img src="screenshots/popup.png" alt="Araç çubuğu penceresi: 250 USD = 12.599,75 TRY, aç/kapat anahtarı, kaynak seçimi ve tema seçici" height="284">
 </p>
 
-- Kurlar **TCMB günlük döviz kurlarından** (`today.xml`) alınır, 1 saat önbelleğe alınır. Alış ve satış kurunun ortalaması kullanılır.
-- Veri toplamaz, hiçbir yere göndermez. Tek ağ isteği TCMB'ye gider.
+- Kurlar varsayılan olarak **TCMB günlük döviz kurlarından** (`today.xml`) alınır, 1 saat önbelleğe alınır. Alış ve satış kurunun ortalaması kullanılır.
+- Pencereden kaynak **ECB** (Avrupa Merkez Bankası referans kurları, [Frankfurter](https://frankfurter.dev) üzerinden) olarak değiştirilebilir. ECB bazı para birimlerini yayımlamaz (örn. SAR, KWD, AED, RUB); bunlarda balon kurun olmadığını söyler.
+- Balonun ve pencerenin altındaki ikonlar: kuru hemen yenile, GitHub; balonda ayrıca balonu kapat.
+- Pencerede iki tutar alanı var; hangisine yazarsan diğeri hesaplanır. Tema: otomatik, beyaz, lacivert (balon da aynı temayı kullanır). Sayfadaki balon, pencerenin üstündeki anahtarla açılıp kapatılır.
+- Kurun TCMB tarihi ve alındığı saat gösterilir.
+- Veri toplamaz, hiçbir yere göndermez. Tek ağ isteği seçili kur kaynağına (TCMB veya Frankfurter) gider.
 - İzinler: `storage` (kur önbelleği) ve `https://www.tcmb.gov.tr/*`.
 
 ## Desteklenen biçimler
@@ -50,6 +54,7 @@ node tests/tcmb.test.js
 - Sitedeki bir "kopyala" düğmesiyle panoya yazılan metin yakalanmaz (tarayıcı bunun için olay üretmez); metni seçmen yeterli.
 - `1.299` gibi tek ayırıcılı ve ayırıcıdan sonra 3 hane olan sayılar binlik ayırıcı sayılır (1299). Fiyatlarda 3 haneli ondalık nadirdir.
 - `¥` işareti JPY kabul edilir (CNY ile karışabilir).
+- Ayarlar (aç/kapat, tema, kaynak) açık sayfalara anında uygulanır. Yalnızca eklenti güncellendiğinde veya yeniden yüklendiğinde Chrome/Brave önceden açık sekmelerdeki eski betiği yenileyemez; balon "sayfayı yenile (F5)" der.
 - Hafta sonu ve tatillerde TCMB son yayımlanan kuru gösterir; balonda kurun tarihi yazar.
 
 ## Lisans
