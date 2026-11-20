@@ -26,12 +26,12 @@ Araç çubuğundaki simgeye tıklayınca açılan pencerede tutarı yazıp (`100
 
 `$ € £ ¥ US$ C$ A$` sembolleri, `USD EUR GBP CHF JPY CAD AUD ...` kodları, `dolar / euro / avro / sterlin` kelimeleri ve TCMB listesindeki tüm para birimlerinin Türkçe adları (`ABD Doları`, `Kanada Doları`, `Japon Yeni`, `Rus Rublesi`...) Türkçe ekleriyle birlikte tanınır. TL tutarları (`₺500`, `500 TL`) dönüştürülmez.
 
-## Kurulum (Brave)
+## Kurulum (Chrome, Brave, Edge, Helium ve diğer Chromium tarayıcılar)
 
 1. Bu depoyu indir (`Code > Download ZIP`) ve klasöre çıkar.
-2. Brave'de `brave://extensions` adresini aç.
+2. `chrome://extensions` (Brave'de `brave://extensions`) adresini aç.
 3. Sağ üstten **Geliştirici modu**nu aç.
-4. **Paketlenmemiş uzantı yükle** deyip klasörü seç.
+4. **Paketlenmemiş uzantı yükle** deyip ZIP'ten çıkan `tl-cevirici-main` klasörünü seç: içinde `manifest.json` görünen klasör. İndirilenler gibi üst klasörü seçersen "Manifest dosyası eksik veya okunamıyor" hatası alırsın.
 
 ## Kurulum (Firefox ve türevleri: LibreWolf, Zen, Floorp…)
 
